@@ -12,6 +12,7 @@ type LoggerObj struct {
 
 func (lo *LoggerObj) WriteHeader(status int) {
 	lo.status = status
+	lo.ResponseWriter.WriteHeader(status)
 }
 
 func Middleware(n http.Handler) http.Handler {
@@ -20,15 +21,8 @@ func Middleware(n http.Handler) http.Handler {
 			ResponseWriter: wr,
 		}
 
-		log.Println("This is the STATUS CODE BEFORE THE REQUEST:", lo.status)
+		log.Printf("Type %T", wr)
 		n.ServeHTTP(lo, r)
-		log.Println("This is the STATUS CODE AFTER THE REQUEST:", lo.status)
-
-		wr.WriteHeader(lo.status)
 		log.Printf("%s %d %s", r.Method, lo.status, r.URL.Path)
 	})
 }
-
-//func LoggerNew(lo LoggerObj) {
-//	log.Printf("%s %d %s %s", lo.Method, lo.Status, lo.Endpoint, lo.URL)
-//}
