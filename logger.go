@@ -7,11 +7,11 @@ import (
 
 type LoggerObj struct {
 	http.ResponseWriter
-	Status int
+	status int
 }
 
 func (lo *LoggerObj) WriteHeader(status int) {
-	lo.Status = status
+	lo.status = status
 }
 
 func Middleware(n http.Handler) http.Handler {
@@ -23,7 +23,7 @@ func Middleware(n http.Handler) http.Handler {
 		n.ServeHTTP(lo, r)
 
 		log.Println(r.Header)
-		log.Printf("%s %d %s", r.Method, lo.Status, r.URL.Path)
+		log.Printf("%s %d %s", r.Method, lo.status, r.URL.Path)
 	})
 }
 
