@@ -21,7 +21,6 @@ func Middleware(n http.Handler) http.Handler {
 			ResponseWriter: wr,
 		}
 
-		log.Printf("Type %T", wr)
 		n.ServeHTTP(lo, r)
 		log.Printf("%s %d %s", r.Method, lo.status, r.URL.Path)
 	})
