@@ -20,11 +20,11 @@ func Middleware(n http.Handler) http.Handler {
 			ResponseWriter: wr,
 		}
 
-		log.Println("This is the STATUS CODE BEFOR THE REQUEST:", lo.status)
+		log.Println("This is the STATUS CODE BEFORE THE REQUEST:", lo.status)
 		n.ServeHTTP(lo, r)
 		log.Println("This is the STATUS CODE AFTER THE REQUEST:", lo.status)
 
-		//log.Println(r.Header)
+		wr.WriteHeader(lo.status)
 		log.Printf("%s %d %s", r.Method, lo.status, r.URL.Path)
 	})
 }
