@@ -14,16 +14,16 @@ func (lo *LoggerObj) WriteHeader(status int) {
 	lo.Status = status
 }
 
-func Middleware(next http.Handler) http.Handler {
+func Middleware(n http.Handler) http.Handler {
 	return http.HandlerFunc(func(wr http.ResponseWriter, r *http.Request) {
 		lo := &LoggerObj{
 			ResponseWriter: wr,
-			Status:         http.StatusOK,
 		}
 
-		next.ServeHTTP(lo, r)
+		n.ServeHTTP(lo, r)
 
-		log.Printf("%s %d %s %s", r.Method, lo.Status, r.URL.Path, r.URL)
+		log.Println(r.Header)
+		log.Printf("%s %d %s", r.Method, lo.Status, r.URL.Path)
 	})
 }
 
